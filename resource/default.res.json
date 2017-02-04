@@ -1,0 +1,50 @@
+{
+	"groups": [
+		{
+			"keys": "description_json,player_skin_0_png,map_bg_png,bg_0_png,arrow_2_png,arrow_1_png,arrow_0_png,arrow_3_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "config/description.json",
+			"type": "json",
+			"name": "description_json"
+		},
+		{
+			"url": "assets/playerSkins/player_skin_0.png",
+			"type": "image",
+			"name": "player_skin_0_png"
+		},
+		{
+			"url": "assets/mapAsset/map_bg.png",
+			"type": "image",
+			"name": "map_bg_png"
+		},
+		{
+			"name": "bg_0_png",
+			"type": "image",
+			"url": "assets/mapAsset/bg_0.png"
+		},
+		{
+			"name": "arrow_2_png",
+			"type": "image",
+			"url": "assets/gridAsset/arrow_2.png"
+		},
+		{
+			"name": "arrow_1_png",
+			"type": "image",
+			"url": "assets/gridAsset/arrow_1.png"
+		},
+		{
+			"name": "arrow_0_png",
+			"type": "image",
+			"url": "assets/gridAsset/arrow_0.png"
+		},
+		{
+			"name": "arrow_3_png",
+			"type": "image",
+			"url": "assets/gridAsset/arrow_3.png"
+		}
+	]
+}
