@@ -44,13 +44,7 @@ module map
 			{
 				node = this.createNode(player.Direction.TOP);				
 			}
-			// else if(this.count > this.MAX - 5)
-			// {
-			// 	if(this.prevNode.dir == player.Direction.LEFT || this.prevNode.dir == player.Direction.TOP || this.prevNode.dir == player.Direction.RIGHT)
-			// 	{
-			// 		node = this.createNode(player.Direction.TOP);
-			// 	}
-			// }
+			
 			else
 			{
 				var dirArr = [];
