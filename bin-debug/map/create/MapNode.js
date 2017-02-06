@@ -11,6 +11,7 @@ var map;
             this.dir = player.Direction.TOP;
             this._isShowArrow = false;
             this.mapLevel = 0; //属于几第个关卡的地图
+            this.type = map.GridType.NORMAL;
         }
         Object.defineProperty(MapNode.prototype, "centerPoint", {
             get: function () {
@@ -23,6 +24,7 @@ var map;
             get: function () {
                 return this._isShowArrow;
             },
+            //是否显示路线变换的箭头
             set: function (b) {
                 this._isShowArrow = b;
             },

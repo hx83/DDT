@@ -12,6 +12,13 @@ var utils;
             result.texture = texture;
             return result;
         };
+        DisplayObjectUtil.removeFromParent = function (dis) {
+            if (dis != null) {
+                if (dis.parent != null) {
+                    dis.parent.removeChild(dis);
+                }
+            }
+        };
         return DisplayObjectUtil;
     }());
     utils.DisplayObjectUtil = DisplayObjectUtil;

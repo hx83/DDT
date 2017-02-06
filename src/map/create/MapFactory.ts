@@ -7,7 +7,7 @@ module map
 		private static MAX:number = 100;
 		private static list:Array<MapNode>;
 		private static prevNode:MapNode;
-
+		
 		private static count : number;
 
 		public constructor() 
@@ -34,6 +34,9 @@ module map
 				this.list.push(this.prevNode);
 			}
 			this.create(level);
+
+			var firstNode:MapNode = this.list[0];
+			firstNode.type = GridType.FIRST;
 			return this.list;
 		}
 
@@ -112,6 +115,25 @@ module map
 				this.prevNode.isShowArrow = true;
 			}
 			return node;
+		}
+
+
+		public static getGridByType(type:GridType):BaseGrid
+		{
+			var grid:BaseGrid;
+			switch(type)
+			{
+				case GridType.NORMAL:
+					grid = new BaseGrid();
+				break;
+				case GridType.FIRST:
+					grid = new FirstGrid();
+				break;
+				default:
+					grid = new BaseGrid()
+				break;
+			}
+			return grid;
 		}
 	}
 }

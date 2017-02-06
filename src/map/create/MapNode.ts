@@ -14,6 +14,8 @@ module map
 		public prevNode:MapNode;
 		public nextNode:MapNode;
 
+		public type:GridType = GridType.NORMAL;
+
 		public constructor() 
 		{
 		}
@@ -24,7 +26,7 @@ module map
 			return new egret.Point(GridConst.GRId_SIZE/2,GridConst.GRId_SIZE/2);
 		}
 		
-		
+		//是否显示路线变换的箭头
 		public set isShowArrow(b : boolean) 
 		{
 			this._isShowArrow = b;
@@ -34,5 +36,7 @@ module map
 		{
 			return this._isShowArrow;
 		}
+
+		
 	}
 }

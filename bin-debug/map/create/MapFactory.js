@@ -24,6 +24,8 @@ var map;
                 this.list.push(this.prevNode);
             }
             this.create(level);
+            var firstNode = this.list[0];
+            firstNode.type = map.GridType.FIRST;
             return this.list;
         };
         MapFactory.create = function (level) {
@@ -85,6 +87,21 @@ var map;
                 this.prevNode.isShowArrow = true;
             }
             return node;
+        };
+        MapFactory.getGridByType = function (type) {
+            var grid;
+            switch (type) {
+                case map.GridType.NORMAL:
+                    grid = new map.BaseGrid();
+                    break;
+                case map.GridType.FIRST:
+                    grid = new map.FirstGrid();
+                    break;
+                default:
+                    grid = new map.BaseGrid();
+                    break;
+            }
+            return grid;
         };
         return MapFactory;
     }());

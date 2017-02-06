@@ -57,6 +57,7 @@ module map
 		{
 			if(v > this._mapLevel)
 			{
+				this.removeOldMap(this._mapLevel);
 				this._mapLevel = v;
 				var list:Array<BaseGrid> = this.mapDict[this.DICT_KEY+this.mapLevel];
 				this.createMap(this._mapLevel+1,list[list.length-1].info);
@@ -74,7 +75,7 @@ module map
 			for (var index = 0; index < arr.length; index++) 
 			{
 				var node:MapNode = arr[index];
-				var grid:BaseGrid = new BaseGrid();
+				var grid:BaseGrid = MapFactory.getGridByType(node.type);
 
 				grid.prevGrid = prevGrid;
 				if(prevGrid != null)
@@ -169,6 +170,18 @@ module map
 			}
 
 			return nextGrid.info.dir;
+		}
+
+		private removeOldMap(level:number)
+		{
+			var list:Array<BaseGrid> = this.mapDict[this.DICT_KEY+level];
+			if(list != null)
+			{
+				list.forEach((grid:BaseGrid,index:number,array:BaseGrid[])=>
+				{
+					utils.DisplayObjectUtil.removeFromParent(grid);
+				});
+			}
 		}
 	}
 }

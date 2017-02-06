@@ -41,6 +41,7 @@ var map;
             },
             set: function (v) {
                 if (v > this._mapLevel) {
+                    this.removeOldMap(this._mapLevel);
                     this._mapLevel = v;
                     var list = this.mapDict[this.DICT_KEY + this.mapLevel];
                     this.createMap(this._mapLevel + 1, list[list.length - 1].info);
@@ -58,7 +59,7 @@ var map;
             var arr = map.MapFactory.createMapData(level, node);
             for (var index = 0; index < arr.length; index++) {
                 var node = arr[index];
-                var grid = new map.BaseGrid();
+                var grid = map.MapFactory.getGridByType(node.type);
                 grid.prevGrid = prevGrid;
                 if (prevGrid != null) {
                     prevGrid.nextGrid = grid;
@@ -131,6 +132,14 @@ var map;
                 }
             }
             return nextGrid.info.dir;
+        };
+        Map.prototype.removeOldMap = function (level) {
+            var list = this.mapDict[this.DICT_KEY + level];
+            if (list != null) {
+                list.forEach(function (grid, index, array) {
+                    utils.DisplayObjectUtil.removeFromParent(grid);
+                });
+            }
         };
         return Map;
     }(egret.Sprite));

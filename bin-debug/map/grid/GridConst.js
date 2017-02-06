@@ -19,6 +19,7 @@ var map;
     GridType.NORMAL = 0;
     GridType.EMPTY = 1; //空的
     GridType.HALF = 2; //一半宽
+    GridType.FIRST = 3; //每一关的起点
     map.GridType = GridType;
     __reflect(GridType.prototype, "map.GridType");
 })(map || (map = {}));

@@ -3,29 +3,30 @@ module map
 	//地图上的格子基类
 	export class BaseGrid extends egret.Sprite
 	{
-		protected _type:number;
+		//protected _type:number;
 		protected _info:MapNode;
 		public prevGrid:BaseGrid;
 		public nextGrid:BaseGrid;
+		
 
 		public constructor() 
 		{
 			super();
 			
 
-			this.type = GridType.NORMAL;
+			//this.type = GridType.NORMAL;
 		}
 		
-		public get type() : number 
-		{
-			return GridType.NORMAL;
-		}
+		// public get type() : number 
+		// {
+		// 	return GridType.NORMAL;
+		// }
 
 		
-		public set type(v : number) 
-		{
-			this._type = v;
-		}
+		// public set type(v : number) 
+		// {
+		// 	this._type = v;
+		// }
 		//检查某个点是否在格子里
 		public checkIsOnRoad(p:egret.Point):boolean
 		{
@@ -44,23 +45,7 @@ module map
 			this.x = v.xIndex*GridConst.GRId_SIZE;
 			this.y = v.yIndex*GridConst.GRId_SIZE;
 
-			var c:number = 0xffffff;
-			if(v.mapLevel == 2)
-			{
-				c = 0xffff00;
-			}
-			else if(v.mapLevel == 3)
-			{
-				c = 0xff0000;
-			}
-			else if(v.mapLevel == 4)
-			{
-				c = 0xff00ff;
-			}
-			this.graphics.beginFill(c);
-			this.graphics.lineStyle(1,0);
-			this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE);
-			this.graphics.endFill();
+			this.setGridSkin();
 
 			if(v.isShowArrow)
 			{
@@ -72,6 +57,28 @@ module map
 		public get info():MapNode
 		{
 			return this._info;
+		}
+
+
+		protected setGridSkin():void
+		{
+			var c:number = 0xffffff;
+			if(this._info.mapLevel == 2)
+			{
+				c = 0xffff00;
+			}
+			else if(this._info.mapLevel == 3)
+			{
+				c = 0xff0000;
+			}
+			else if(this._info.mapLevel == 4)
+			{
+				c = 0xff00ff;
+			}
+			this.graphics.beginFill(c);
+			this.graphics.lineStyle(1,0);
+			this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE);
+			this.graphics.endFill();
 		}
 	}
 

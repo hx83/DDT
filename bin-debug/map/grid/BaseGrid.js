@@ -12,20 +12,17 @@ var map;
     var BaseGrid = (function (_super) {
         __extends(BaseGrid, _super);
         function BaseGrid() {
-            var _this = _super.call(this) || this;
-            _this.type = map.GridType.NORMAL;
-            return _this;
+            return _super.call(this) || this;
+            //this.type = GridType.NORMAL;
         }
-        Object.defineProperty(BaseGrid.prototype, "type", {
-            get: function () {
-                return map.GridType.NORMAL;
-            },
-            set: function (v) {
-                this._type = v;
-            },
-            enumerable: true,
-            configurable: true
-        });
+        // public get type() : number 
+        // {
+        // 	return GridType.NORMAL;
+        // }
+        // public set type(v : number) 
+        // {
+        // 	this._type = v;
+        // }
         //检查某个点是否在格子里
         BaseGrid.prototype.checkIsOnRoad = function (p) {
             return true;
@@ -46,20 +43,7 @@ var map;
                 this._info = v;
                 this.x = v.xIndex * map.GridConst.GRId_SIZE;
                 this.y = v.yIndex * map.GridConst.GRId_SIZE;
-                var c = 0xffffff;
-                if (v.mapLevel == 2) {
-                    c = 0xffff00;
-                }
-                else if (v.mapLevel == 3) {
-                    c = 0xff0000;
-                }
-                else if (v.mapLevel == 4) {
-                    c = 0xff00ff;
-                }
-                this.graphics.beginFill(c);
-                this.graphics.lineStyle(1, 0);
-                this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE);
-                this.graphics.endFill();
+                this.setGridSkin();
                 if (v.isShowArrow) {
                     var bmp = utils.DisplayObjectUtil.createBitmapByName("arrow_" + v.nextNode.dir + "_png");
                     this.addChild(bmp);
@@ -68,6 +52,22 @@ var map;
             enumerable: true,
             configurable: true
         });
+        BaseGrid.prototype.setGridSkin = function () {
+            var c = 0xffffff;
+            if (this._info.mapLevel == 2) {
+                c = 0xffff00;
+            }
+            else if (this._info.mapLevel == 3) {
+                c = 0xff0000;
+            }
+            else if (this._info.mapLevel == 4) {
+                c = 0xff00ff;
+            }
+            this.graphics.beginFill(c);
+            this.graphics.lineStyle(1, 0);
+            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE);
+            this.graphics.endFill();
+        };
         return BaseGrid;
     }(egret.Sprite));
     map.BaseGrid = BaseGrid;

@@ -12,5 +12,16 @@ module utils
 			result.texture = texture;
 			return result;
 		}
+
+		public static removeFromParent(dis:egret.DisplayObject)
+		{
+			if(dis != null)
+			{
+				if(dis.parent != null)
+				{
+					dis.parent.removeChild(dis);
+				}
+			}
+		}
 	}
 }
