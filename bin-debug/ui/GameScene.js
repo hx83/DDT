@@ -21,15 +21,16 @@ var ui;
             return _this;
         }
         GameScene.prototype.update = function () {
-            this.player.move();
             //console.log(this._map.isOnMap(this.player.x,this.player.y));
             var grid = this._map.getPlayerGrid();
             if (grid == null) {
                 console.warn("dead!");
+                return;
             }
             else {
                 this._map.mapLevel = grid.info.mapLevel;
             }
+            this.player.move();
         };
         return GameScene;
     }(egret.Sprite));

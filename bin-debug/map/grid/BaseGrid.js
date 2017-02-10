@@ -64,7 +64,7 @@ var map;
                 c = 0xff00ff;
             }
             this.graphics.beginFill(c);
-            this.graphics.lineStyle(1, 0);
+            //this.graphics.lineStyle(1,0);
             this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE);
             this.graphics.endFill();
         };

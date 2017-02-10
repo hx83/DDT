@@ -20,17 +20,18 @@ module ui
 
 		public update():void
 		{
-			this.player.move();
 			//console.log(this._map.isOnMap(this.player.x,this.player.y));
 			var grid:map.BaseGrid = this._map.getPlayerGrid();
 			if(grid == null)
 			{
 				console.warn("dead!");
+				return;
 			}
 			else
 			{
 				this._map.mapLevel = grid.info.mapLevel;
 			}
+			this.player.move();
 		}
 	}
 }

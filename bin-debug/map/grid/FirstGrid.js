@@ -27,8 +27,8 @@ var map;
             }
             this.graphics.clear();
             this.graphics.beginFill(c);
-            this.graphics.lineStyle(1, 0);
-            this.graphics.drawCircle(map.GridConst.GRId_SIZE / 2, 0, map.GridConst.GRId_SIZE * 2);
+            //this.graphics.lineStyle(1,0);
+            this.graphics.drawCircle(map.GridConst.GRId_SIZE / 2, 0, map.GridConst.GRId_SIZE * 1.5);
             this.graphics.endFill();
         };
         return FirstGrid;
