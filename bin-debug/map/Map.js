@@ -25,8 +25,8 @@ var map;
             _this.createMap(_this.mapLevel);
             var list = _this.mapDict[_this.DICT_KEY + _this.mapLevel];
             _this.createMap(_this._mapLevel + 1, list[list.length - 1].info);
-            _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
             return _this;
+            //this.addEventListener(egret.Event.ADDED_TO_STAGE,this.onAddToStage,this);
         }
         //
         //添加人物
@@ -60,13 +60,13 @@ var map;
             for (var index = 0; index < arr.length; index++) {
                 var node = arr[index];
                 var grid = map.MapFactory.getGridByType(node.type);
+                grid.info = node;
                 grid.prevGrid = prevGrid;
                 if (prevGrid != null) {
                     prevGrid.nextGrid = grid;
                 }
                 prevGrid = grid;
                 //grid.type = node.
-                grid.info = node;
                 if (index == 0 && level == 1) {
                     this.playerStartPoint = new egret.Point(grid.x + node.centerPoint.x, grid.y + node.centerPoint.y);
                 }
@@ -101,10 +101,11 @@ var map;
             var y = this.player.y;
             return this.getCurrentGrid(x, y);
         };
-        Map.prototype.onAddToStage = function () {
-            this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchHandler, this);
-        };
-        Map.prototype.touchHandler = function (event) {
+        // private onAddToStage():void
+        // {
+        // 	this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.touchHandler,this);
+        // }
+        Map.prototype.touchHandler = function () {
             var grid = this.getPlayerGrid();
             if (grid != null) {
                 var dir = this.getNextMoveDir(grid);

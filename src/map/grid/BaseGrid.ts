@@ -6,27 +6,16 @@ module map
 		//protected _type:number;
 		protected _info:MapNode;
 		public prevGrid:BaseGrid;
-		public nextGrid:BaseGrid;
+		private _nextGrid:BaseGrid;
 		
 
 		public constructor() 
 		{
 			super();
-			
 
-			//this.type = GridType.NORMAL;
 		}
 		
-		// public get type() : number 
-		// {
-		// 	return GridType.NORMAL;
-		// }
-
 		
-		// public set type(v : number) 
-		// {
-		// 	this._type = v;
-		// }
 		//检查某个点是否在格子里
 		public checkIsOnRoad(p:egret.Point):boolean
 		{
@@ -59,8 +48,64 @@ module map
 			return this._info;
 		}
 
+		public set nextGrid(v:BaseGrid)
+		{
+			this._nextGrid = v;
+
+			if(this.nextGrid != null && this.nextGrid.info.dir != this.info.dir)
+			{
+				console.log("draw round");
+				var c = this.getGridColor();
+
+				this.graphics.clear();
+				this.graphics.beginFill(c);
+				this.graphics.drawRoundRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE,GridConst.GRId_SIZE/4,GridConst.GRId_SIZE/4);
+
+				if(this.nextGrid.info.xIndex == this.info.xIndex)
+				{
+					if(this.info.dir == player.Direction.LEFT)
+					{
+						this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+						this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+					}
+					else
+					{
+						this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+						this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+					}
+				}
+				else if(this.nextGrid.info.yIndex == this.info.yIndex)
+				{
+					if(this.nextGrid.info.dir == player.Direction.LEFT)
+					{
+						this.graphics.drawRect(0,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+						this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+					}
+					else
+					{
+						this.graphics.drawRect(GridConst.GRId_SIZE/2,0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE);
+						this.graphics.drawRect(0,GridConst.GRId_SIZE/2,GridConst.GRId_SIZE,GridConst.GRId_SIZE/2);
+					}
+				}
+
+				this.graphics.endFill();
+			}
+		}
+
+		public get nextGrid():BaseGrid
+		{
+			return this._nextGrid;
+		}
 
 		protected setGridSkin():void
+		{
+			var c = this.getGridColor();
+			this.graphics.beginFill(c);
+			this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE);
+			this.graphics.endFill();
+		}
+
+		protected getGridColor():number
 		{
 			var c:number = 0xffffff;
 			if(this._info.mapLevel == 2)
@@ -75,10 +120,7 @@ module map
 			{
 				c = 0xff00ff;
 			}
-			this.graphics.beginFill(c);
-			//this.graphics.lineStyle(1,0);
-			this.graphics.drawRect(0,0,GridConst.GRId_SIZE,GridConst.GRId_SIZE);
-			this.graphics.endFill();
+			return c;
 		}
 	}
 

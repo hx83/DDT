@@ -36,9 +36,14 @@ class Main extends egret.DisplayObjectContainer {
     private loadingView:LoadingUI;
     private gameScene:ui.GameScene;
 
+    private mainMenu:ui.MainMenu;
+
+    public static instance:Main;
+
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+        Main.instance = this;
     }
 
     private onAddToStage(event:egret.Event) 
@@ -121,8 +126,12 @@ class Main extends egret.DisplayObjectContainer {
     
     private createGameScene():void 
     {
+        this.mainMenu = new ui.MainMenu();
+        this.addChild(this.mainMenu);
+        
         this.gameScene = new ui.GameScene();
-        this.addChild(this.gameScene);
+        this.gameScene.alpha = 0;
+        
 
         //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
@@ -154,7 +163,21 @@ class Main extends egret.DisplayObjectContainer {
     }
         
 
+    public startGame():void
+    {
+        egret.Tween.get(this.mainMenu).to({alpha:0},200).call(this.showGameScene,this);
+    }
     
+    private showGameScene():void
+    {
+        this.addChild(this.gameScene);
+        egret.Tween.get(this.gameScene).to({alpha:1},200).call(this.runGameScene,this);
+    } 
+
+    private runGameScene():void
+    {
+        this.gameScene.start();
+    }
 }
 
 

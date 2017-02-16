@@ -19,6 +19,20 @@ var utils;
                 }
             }
         };
+        DisplayObjectUtil.centerObjToStage = function (dis) {
+            if (dis == null) {
+                return;
+            }
+            dis.x = (StageManager.stageWidth - dis.width) / 2;
+            dis.y = (StageManager.stageHeight - dis.height) / 2;
+        };
+        DisplayObjectUtil.centerObj = function (dis, parent) {
+            if (dis == null || parent == null) {
+                return;
+            }
+            dis.x = (parent.width - dis.width) / 2;
+            dis.y = (parent.height - dis.height) / 2;
+        };
         return DisplayObjectUtil;
     }());
     utils.DisplayObjectUtil = DisplayObjectUtil;

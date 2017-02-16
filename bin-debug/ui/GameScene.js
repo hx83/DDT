@@ -12,25 +12,99 @@ var ui;
         __extends(GameScene, _super);
         function GameScene() {
             var _this = _super.call(this) || this;
+            _this.isStart = false;
+            _this.isDead = false;
+            _this.bmpStrings = ["num_3_png", "num_2_png", "num_1_png", "go_png"];
+            _this.graphics.beginFill(0x00ccff);
+            _this.graphics.drawRect(0, 0, StageManager.stageWidth, StageManager.stageHeight);
+            _this.graphics.endFill();
             _this._map = new map.Map();
             _this.addChild(_this._map);
             _this.player = new player.Player();
             _this._map.addPlayer(_this.player);
             Camera.setup(_this._map);
             Camera.follow(_this.player);
+            _this.timer = new egret.Timer(1000, 5);
+            _this.timer.addEventListener(egret.TimerEvent.TIMER, _this.onTimer, _this);
+            _this.numBmp = new egret.Bitmap();
+            _this.touchSprite = new egret.Sprite();
+            _this.touchSprite.graphics.beginFill(0, 0.4);
+            _this.touchSprite.graphics.drawRect(0, 0, StageManager.stageWidth, StageManager.stageHeight);
+            _this.touchSprite.graphics.endFill();
+            _this.addChild(_this.touchSprite);
+            _this.touchSprite.addEventListener(egret.TouchEvent.TOUCH_BEGIN, _this.touchHandler, _this);
+            //
+            _this.resultPanel = new ui.ResultPanel();
+            utils.DisplayObjectUtil.centerObjToStage(_this.resultPanel);
+            _this.orResultPanelY = _this.resultPanel.y;
             return _this;
         }
+        GameScene.prototype.touchHandler = function (event) {
+            if (this.isStart == false || this.isDead == true) {
+                return;
+            }
+            this._map.touchHandler();
+        };
         GameScene.prototype.update = function () {
+            if (this.isStart == false || this.isDead == true) {
+                return;
+            }
             //console.log(this._map.isOnMap(this.player.x,this.player.y));
             var grid = this._map.getPlayerGrid();
             if (grid == null) {
                 console.warn("dead!");
+                this.isDead = true;
+                this.showResultPanel();
                 return;
             }
             else {
                 this._map.mapLevel = grid.info.mapLevel;
             }
             this.player.move();
+        };
+        GameScene.prototype.start = function () {
+            //this.isStart = true;
+            this.timer.start();
+            this.isDead = false;
+        };
+        GameScene.prototype.end = function () {
+            this.isStart = false;
+            this.timer.reset();
+            this.touchSprite.touchEnabled = false;
+        };
+        GameScene.prototype.onTimer = function (event) {
+            utils.DisplayObjectUtil.removeFromParent(this.numBmp);
+            var n = this.timer.currentCount;
+            if (n == 5) {
+            }
+            else {
+                if (n == 4) {
+                    this.hideMask();
+                    this.touchSprite.touchEnabled = true;
+                    this.isStart = true;
+                }
+                this.numBmp = utils.DisplayObjectUtil.createBitmapByName(this.bmpStrings[n - 1]);
+                this.numBmp.alpha = 0;
+                utils.DisplayObjectUtil.centerObjToStage(this.numBmp);
+                this.numBmp.y = (StageManager.stageHeight - this.numBmp.height) / 2 + this.numBmp.height * 2.5;
+                egret.Tween.get(this.numBmp).to({ alpha: 1, y: (StageManager.stageHeight - this.numBmp.height) / 2 + this.numBmp.height * 2.5 - 100 }, 200, egret.Ease.backOut);
+                this.addChild(this.numBmp);
+            }
+        };
+        GameScene.prototype.showMask = function () {
+            this.touchSprite.alpha = 1;
+        };
+        GameScene.prototype.hideMask = function () {
+            this.touchSprite.alpha = 0;
+        };
+        //游戏结束时显示结算面板
+        GameScene.prototype.showResultPanel = function () {
+            this.showMask();
+            var y = StageManager.stageHeight;
+            this.resultPanel.y = y;
+            this.addChild(this.resultPanel);
+            //
+            egret.Tween.get(this.resultPanel).to({ y: this.orResultPanelY }, 400, egret.Ease.backOut);
         };
         return GameScene;
     }(egret.Sprite));

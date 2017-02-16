@@ -9,21 +9,8 @@ module map
 
 		protected setGridSkin():void
 		{
-			//super.setGridSkin();
-
-			var c:number = 0xffffff;
-			if(this._info.mapLevel == 2)
-			{
-				c = 0xffff00;
-			}
-			else if(this._info.mapLevel == 3)
-			{
-				c = 0xff0000;
-			}
-			else if(this._info.mapLevel == 4)
-			{
-				c = 0xff00ff;
-			}
+			var c = this.getGridColor();
+			
 			this.graphics.clear();
 			this.graphics.beginFill(c);
 			//this.graphics.lineStyle(1,0);

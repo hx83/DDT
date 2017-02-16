@@ -39,6 +39,7 @@ var Main = (function (_super) {
     function Main() {
         var _this = _super.call(this) || this;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
+        Main.instance = _this;
         return _this;
     }
     Main.prototype.onAddToStage = function (event) {
@@ -110,8 +111,10 @@ var Main = (function (_super) {
      * Create a game scene
      */
     Main.prototype.createGameScene = function () {
+        this.mainMenu = new ui.MainMenu();
+        this.addChild(this.mainMenu);
         this.gameScene = new ui.GameScene();
-        this.addChild(this.gameScene);
+        this.gameScene.alpha = 0;
         //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
         // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
         RES.getResAsync("description_json", this.startAnimation, this);
@@ -135,6 +138,16 @@ var Main = (function (_super) {
      * Description file loading is successful, start to play the animation
      */
     Main.prototype.startAnimation = function (result) {
+    };
+    Main.prototype.startGame = function () {
+        egret.Tween.get(this.mainMenu).to({ alpha: 0 }, 200).call(this.showGameScene, this);
+    };
+    Main.prototype.showGameScene = function () {
+        this.addChild(this.gameScene);
+        egret.Tween.get(this.gameScene).to({ alpha: 1 }, 200).call(this.runGameScene, this);
+    };
+    Main.prototype.runGameScene = function () {
+        this.gameScene.start();
     };
     return Main;
 }(egret.DisplayObjectContainer));

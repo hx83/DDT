@@ -38,7 +38,7 @@ module map
 			var list:Array<BaseGrid> = this.mapDict[this.DICT_KEY+this.mapLevel];
 			this.createMap(this._mapLevel+1,list[list.length-1].info);
 			
-			this.addEventListener(egret.Event.ADDED_TO_STAGE,this.onAddToStage,this);
+			//this.addEventListener(egret.Event.ADDED_TO_STAGE,this.onAddToStage,this);
 		}
 		//
 		//添加人物
@@ -76,6 +76,7 @@ module map
 			{
 				var node:MapNode = arr[index];
 				var grid:BaseGrid = MapFactory.getGridByType(node.type);
+				grid.info = node;                                                                                                                                                                         
 
 				grid.prevGrid = prevGrid;
 				if(prevGrid != null)
@@ -85,7 +86,6 @@ module map
 
 				prevGrid = grid;
 				//grid.type = node.
-				grid.info = node;                                                                                                                                                                                 
 				if(index == 0 && level == 1)
 				{
 					this.playerStartPoint = new egret.Point(grid.x + node.centerPoint.x,grid.y + node.centerPoint.y);
@@ -127,12 +127,12 @@ module map
 
 			return this.getCurrentGrid(x,y);
 		}
-		private onAddToStage():void
-		{
-			this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.touchHandler,this);
-		}
+		// private onAddToStage():void
+		// {
+		// 	this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.touchHandler,this);
+		// }
 
-		private touchHandler(event:egret.TouchEvent):void
+		public touchHandler():void
 		{
 			var grid:BaseGrid = this.getPlayerGrid();
 			if(grid != null)

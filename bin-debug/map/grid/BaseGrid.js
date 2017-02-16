@@ -13,16 +13,7 @@ var map;
         __extends(BaseGrid, _super);
         function BaseGrid() {
             return _super.call(this) || this;
-            //this.type = GridType.NORMAL;
         }
-        // public get type() : number 
-        // {
-        // 	return GridType.NORMAL;
-        // }
-        // public set type(v : number) 
-        // {
-        // 	this._type = v;
-        // }
         //检查某个点是否在格子里
         BaseGrid.prototype.checkIsOnRoad = function (p) {
             return true;
@@ -52,7 +43,51 @@ var map;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(BaseGrid.prototype, "nextGrid", {
+            get: function () {
+                return this._nextGrid;
+            },
+            set: function (v) {
+                this._nextGrid = v;
+                if (this.nextGrid != null && this.nextGrid.info.dir != this.info.dir) {
+                    console.log("draw round");
+                    var c = this.getGridColor();
+                    this.graphics.clear();
+                    this.graphics.beginFill(c);
+                    this.graphics.drawRoundRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 4, map.GridConst.GRId_SIZE / 4);
+                    if (this.nextGrid.info.xIndex == this.info.xIndex) {
+                        if (this.info.dir == player.Direction.LEFT) {
+                            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
+                            this.graphics.drawRect(map.GridConst.GRId_SIZE / 2, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
+                        }
+                        else {
+                            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
+                            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
+                        }
+                    }
+                    else if (this.nextGrid.info.yIndex == this.info.yIndex) {
+                        if (this.nextGrid.info.dir == player.Direction.LEFT) {
+                            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
+                            this.graphics.drawRect(0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
+                        }
+                        else {
+                            this.graphics.drawRect(map.GridConst.GRId_SIZE / 2, 0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE);
+                            this.graphics.drawRect(0, map.GridConst.GRId_SIZE / 2, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE / 2);
+                        }
+                    }
+                    this.graphics.endFill();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
         BaseGrid.prototype.setGridSkin = function () {
+            var c = this.getGridColor();
+            this.graphics.beginFill(c);
+            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE);
+            this.graphics.endFill();
+        };
+        BaseGrid.prototype.getGridColor = function () {
             var c = 0xffffff;
             if (this._info.mapLevel == 2) {
                 c = 0xffff00;
@@ -63,10 +98,7 @@ var map;
             else if (this._info.mapLevel == 4) {
                 c = 0xff00ff;
             }
-            this.graphics.beginFill(c);
-            //this.graphics.lineStyle(1,0);
-            this.graphics.drawRect(0, 0, map.GridConst.GRId_SIZE, map.GridConst.GRId_SIZE);
-            this.graphics.endFill();
+            return c;
         };
         return BaseGrid;
     }(egret.Sprite));
