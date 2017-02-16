@@ -5,6 +5,9 @@ module ui
 	{
 		private bg:egret.Bitmap;
 
+		private scoreBg:egret.Bitmap;
+		private starIcon:egret.Bitmap;
+
 		private restartBtn:egret.Bitmap;
 		private shareIcon:egret.Bitmap;
 		private homeIcon:egret.Bitmap;
@@ -17,6 +20,16 @@ module ui
 			this.addChild(this.bg);
 			this.width = this.bg.width;
 			this.height = this.bg.height;
+
+			this.scoreBg = utils.DisplayObjectUtil.createBitmapByName("result_panel_score_bg_png");
+			utils.DisplayObjectUtil.centerObj(this.scoreBg,this);
+			this.scoreBg.y = 100;
+			this.addChild(this.scoreBg);
+
+			this.starIcon = utils.DisplayObjectUtil.createBitmapByName("result_panel_gold_icon_png");
+			this.starIcon.x = this.scoreBg.x + this.scoreBg.width - this.starIcon.width - 20;
+			this.starIcon.y = this.scoreBg.y - 1;
+			this.addChild(this.starIcon);
 
 			this.restartBtn = utils.DisplayObjectUtil.createBitmapByName("result_panel_restart_btn_png");
 
