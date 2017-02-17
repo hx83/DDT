@@ -14,20 +14,28 @@ var map;
         function Map() {
             var _this = _super.call(this) || this;
             _this.DICT_KEY = "level_";
-            _this._mapLevel = 1;
-            _this.mapDict = new utils.Dictionary();
-            _this.allGridDict = new utils.Dictionary();
-            _this.mapLayer = new egret.Sprite();
-            _this.playerLayer = new egret.Sprite();
-            _this.addChild(_this.mapLayer);
-            _this.addChild(_this.playerLayer);
-            //第一次生成两个关卡，保持地图连贯
-            _this.createMap(_this.mapLevel);
-            var list = _this.mapDict[_this.DICT_KEY + _this.mapLevel];
-            _this.createMap(_this._mapLevel + 1, list[list.length - 1].info);
+            _this.reset();
             return _this;
-            //this.addEventListener(egret.Event.ADDED_TO_STAGE,this.onAddToStage,this);
         }
+        Map.prototype.reset = function () {
+            this._mapLevel = 1;
+            this.mapDict = new utils.Dictionary();
+            this.allGridDict = new utils.Dictionary();
+            if (this.mapLayer != null) {
+                this.mapLayer.removeChildren();
+            }
+            if (this.playerLayer != null) {
+                this.playerLayer.removeChildren();
+            }
+            this.mapLayer = new egret.Sprite();
+            this.playerLayer = new egret.Sprite();
+            this.addChild(this.mapLayer);
+            this.addChild(this.playerLayer);
+            //第一次生成两个关卡，保持地图连贯
+            this.createMap(this.mapLevel);
+            var list = this.mapDict[this.DICT_KEY + this.mapLevel];
+            this.createMap(this._mapLevel + 1, list[list.length - 1].info);
+        };
         //
         //添加人物
         Map.prototype.addPlayer = function (player) {

@@ -21,6 +21,11 @@ var player;
             _this.skinID = 0;
             _this.speed = 5;
             _this.direction = player.Direction.TOP;
+            _this.deadIcon = utils.DisplayObjectUtil.createBitmapByName("dead_icon_png");
+            _this.deadIcon.anchorOffsetX = _this.deadIcon.width / 2;
+            _this.deadIcon.anchorOffsetY = _this.deadIcon.height / 2;
+            _this.deadIcon.x = 0;
+            _this.deadIcon.y = 0;
             return _this;
         }
         Object.defineProperty(Player.prototype, "skinID", {
@@ -32,8 +37,10 @@ var player;
                 this._skinID = v;
                 this._playerImg = utils.DisplayObjectUtil.createBitmapByName(this.SKIN_NAME + this.skinID + "_png");
                 this.skinSprite.addChild(this._playerImg);
-                this._playerImg.x = -this._playerImg.width / 2;
-                this._playerImg.y = -this._playerImg.height / 2;
+                this._playerImg.anchorOffsetX = this._playerImg.width / 2;
+                this._playerImg.anchorOffsetY = this._playerImg.height / 2;
+                this._playerImg.x = 0;
+                this._playerImg.y = 0;
             },
             enumerable: true,
             configurable: true
@@ -95,6 +102,22 @@ var player;
         Player.prototype.move = function () {
             this.x += this._xPower * this.speed;
             this.y += this._yPower * this.speed;
+        };
+        //死亡
+        Player.prototype.dead = function () {
+            this.deadIcon.scaleX = 0;
+            this.deadIcon.scaleY = 0;
+            this.addChild(this.deadIcon);
+            egret.Tween.get(this._playerImg).to({ scaleX: 0, scaleY: 0 }, 200);
+            egret.Tween.get(this.deadIcon).to({ scaleX: 1, scaleY: 1 }, 200);
+        };
+        Player.prototype.reset = function () {
+            this.x = 0;
+            this.y = 0;
+            utils.DisplayObjectUtil.removeFromParent(this.deadIcon);
+            this._playerImg.scaleX = 1;
+            this._playerImg.scaleY = 1;
+            this.direction = player.Direction.TOP;
         };
         return Player;
     }(egret.Sprite));

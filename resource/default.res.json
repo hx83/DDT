@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,player_skin_0_png,map_bg_png,bg_0_png,arrow_2_png,arrow_1_png,arrow_0_png,arrow_3_png,main_menu_bg_png,main_menu_start_btn_png,num_1_png,num_2_png,num_3_png,go_png,result_panel_bg_png,result_panel_score_bg_png,result_panel_gold_icon_png,result_panel_restart_btn_png,share_icon_png,home_icon_png,shop_icon_png",
+			"keys": "description_json,player_skin_0_png,map_bg_png,bg_0_png,arrow_2_png,arrow_1_png,arrow_0_png,arrow_3_png,main_menu_bg_png,main_menu_start_btn_png,num_1_png,num_2_png,num_3_png,go_png,result_panel_bg_png,result_panel_score_bg_png,result_panel_gold_icon_png,result_panel_restart_btn_png,share_icon_png,home_icon_png,shop_icon_png,dead_icon_png",
 			"name": "preload"
 		}
 	],
@@ -110,6 +110,11 @@
 			"name": "shop_icon_png",
 			"type": "image",
 			"url": "assets/ui/icon/shop_icon.png"
+		},
+		{
+			"name": "dead_icon_png",
+			"type": "image",
+			"url": "assets/mapAsset/dead_icon.png"
 		}
 	]
 }

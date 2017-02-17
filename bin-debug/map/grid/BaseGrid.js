@@ -50,7 +50,7 @@ var map;
             set: function (v) {
                 this._nextGrid = v;
                 if (this.nextGrid != null && this.nextGrid.info.dir != this.info.dir) {
-                    console.log("draw round");
+                    //console.log("draw round");
                     var c = this.getGridColor();
                     this.graphics.clear();
                     this.graphics.beginFill(c);

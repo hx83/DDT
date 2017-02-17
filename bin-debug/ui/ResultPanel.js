@@ -25,26 +25,33 @@ var ui;
             _this.starIcon.x = _this.scoreBg.x + _this.scoreBg.width - _this.starIcon.width - 20;
             _this.starIcon.y = _this.scoreBg.y - 1;
             _this.addChild(_this.starIcon);
-            _this.restartBtn = utils.DisplayObjectUtil.createBitmapByName("result_panel_restart_btn_png");
-            _this.shareIcon = utils.DisplayObjectUtil.createBitmapByName("share_icon_png");
-            _this.homeIcon = utils.DisplayObjectUtil.createBitmapByName("home_icon_png");
-            _this.shopIcon = utils.DisplayObjectUtil.createBitmapByName("shop_icon_png");
+            _this.shareIcon = new tui.Button(utils.DisplayObjectUtil.createBitmapByName("share_icon_png"));
+            _this.homeIcon = new tui.Button(utils.DisplayObjectUtil.createBitmapByName("home_icon_png"));
+            _this.shopIcon = new tui.Button(utils.DisplayObjectUtil.createBitmapByName("shop_icon_png"));
             var iconList = [_this.shareIcon, _this.homeIcon, _this.shopIcon];
             var gap = 95;
             var allIconWidth = _this.shareIcon.width + _this.homeIcon.width + _this.shopIcon.width + 95 * 2;
-            var ox = (_this.width - allIconWidth) / 2;
+            var ox = (_this.width - allIconWidth) / 2 + _this.shareIcon.width / 2;
             for (var index = 0; index < iconList.length; index++) {
                 var icon = iconList[index];
                 icon.x = ox + (icon.width + gap) * index;
-                icon.y = _this.height - 136;
+                icon.y = _this.height - 90;
                 _this.addChild(icon);
             }
             //
-            utils.DisplayObjectUtil.centerObj(_this.restartBtn, _this);
-            _this.restartBtn.y += 30;
+            _this.restartBtn = new tui.Button(utils.DisplayObjectUtil.createBitmapByName("result_panel_restart_btn_png"));
+            _this.restartBtn.x = _this.width / 2;
+            _this.restartBtn.y = _this.height / 2 + 30;
             _this.addChild(_this.restartBtn);
+            _this.addEvent();
             return _this;
         }
+        ResultPanel.prototype.addEvent = function () {
+            this.restartBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.restartGame, this);
+        };
+        ResultPanel.prototype.restartGame = function (event) {
+            this.dispatchEvent(new events.GameEvent(events.GameEvent.RESTART_GAME));
+        };
         return ResultPanel;
     }(egret.Sprite));
     ui.ResultPanel = ResultPanel;

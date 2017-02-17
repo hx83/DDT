@@ -10,14 +10,16 @@ var game_file_list = [
 	"libs/modules/tween/tween.js",
 	"libs/modules/socket/socket.js",
 	"bin-debug/map/grid/BaseGrid.js",
-	"bin-debug/LoadingUI.js",
+	"bin-debug/Camera.js",
 	"bin-debug/Main.js",
 	"bin-debug/StageManager.js",
+	"bin-debug/compoent/Button.js",
+	"bin-debug/events/GameEvent.js",
 	"bin-debug/map/Map.js",
 	"bin-debug/map/create/MapFactory.js",
 	"bin-debug/map/create/MapNode.js",
-	"bin-debug/Camera.js",
-	"bin-debug/utils/DisplayObjectUtil.js",
+	"bin-debug/LoadingUI.js",
+	"bin-debug/map/grid/FirstGrid.js",
 	"bin-debug/map/grid/GridConst.js",
 	"bin-debug/player/Direction.js",
 	"bin-debug/player/Player.js",
@@ -25,7 +27,7 @@ var game_file_list = [
 	"bin-debug/ui/MainMenu.js",
 	"bin-debug/ui/ResultPanel.js",
 	"bin-debug/utils/Dictionary.js",
-	"bin-debug/map/grid/FirstGrid.js",
+	"bin-debug/utils/DisplayObjectUtil.js",
 	//----auto game_file_list end----
 ];
 

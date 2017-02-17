@@ -36,7 +36,6 @@ module ui
 			Camera.follow(this.player);
 
 			this.timer = new egret.Timer(1000,5);
-			this.timer.addEventListener(egret.TimerEvent.TIMER,this.onTimer,this);
 
 			this.numBmp = new egret.Bitmap();
 
@@ -44,16 +43,25 @@ module ui
 			this.touchSprite.graphics.beginFill(0,0.4);
 			this.touchSprite.graphics.drawRect(0,0,StageManager.stageWidth,StageManager.stageHeight);
 			this.touchSprite.graphics.endFill();
+			this.touchSprite.cacheAsBitmap = true;
 
 			this.addChild(this.touchSprite);
 
-			this.touchSprite.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.touchHandler,this);
 			//
 			this.resultPanel = new ResultPanel();
 			utils.DisplayObjectUtil.centerObjToStage(this.resultPanel);
 			this.orResultPanelY = this.resultPanel.y;
+			
+			this.addEvent();
 		}
 
+		private addEvent():void
+		{
+			this.timer.addEventListener(egret.TimerEvent.TIMER,this.onTimer,this);
+
+			this.touchSprite.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.touchHandler,this);
+			this.resultPanel.addEventListener(events.GameEvent.RESTART_GAME,this.restartGame,this);
+		}
 		private touchHandler(event:egret.TouchEvent):void
 		{
 			if(this.isStart == false || this.isDead == true)
@@ -74,8 +82,9 @@ module ui
 			if(grid == null)
 			{
 				console.warn("dead!");
-				this.isDead = true;
-				this.showResultPanel();
+
+				this.end();
+
 				return;
 			}
 			else
@@ -97,6 +106,10 @@ module ui
 			this.isStart = false;
 			this.timer.reset();
 			this.touchSprite.touchEnabled = false;
+			//
+			this.player.dead();
+			this.isDead = true;
+			this.showResultPanel();
 		}
 
 
@@ -138,13 +151,34 @@ module ui
 		//游戏结束时显示结算面板
 		private showResultPanel():void
 		{
-			this.showMask();
+			var temp = this;
+			setTimeout(function() {
+				temp.showMask();
+				var y = StageManager.stageHeight;
+				temp.resultPanel.y = y;
+				temp.addChild(temp.resultPanel);
+				//
+				egret.Tween.get(temp.resultPanel).to({y:temp.orResultPanelY},400,egret.Ease.backOut);
+			}, 600);
+			
 
-			var y = StageManager.stageHeight;
-			this.resultPanel.y = y;
-			this.addChild(this.resultPanel);
-			//
-			egret.Tween.get(this.resultPanel).to({y:this.orResultPanelY},400,egret.Ease.backOut);
+		}
+		private hideResultPanel():void
+		{
+			egret.Tween.get(this.resultPanel).to({y:StageManager.stageHeight},400,egret.Ease.backIn);			
+		}
+
+
+		private restartGame(event:events.GameEvent):void
+		{
+			this.hideResultPanel();
+			this._map.reset();
+			
+			this.player.reset();
+
+			this._map.addPlayer(this.player);
+
+			this.start();
 		}
 	}
 }

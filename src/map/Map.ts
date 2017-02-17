@@ -21,11 +21,23 @@ module map
 		{
 			super();
 
-			this._mapLevel = 1;
+			this.reset();
+		}
 
+		public reset():void
+		{
+			this._mapLevel = 1;
+			
 			this.mapDict = new utils.Dictionary<Array<BaseGrid>>();
 			this.allGridDict = new utils.Dictionary<BaseGrid>();
-
+			if(this.mapLayer != null)
+			{
+				this.mapLayer.removeChildren();
+			}
+			if(this.playerLayer != null)
+			{
+				this.playerLayer.removeChildren();
+			}
 			this.mapLayer = new egret.Sprite();
 			this.playerLayer = new egret.Sprite();
 
@@ -37,8 +49,6 @@ module map
 				
 			var list:Array<BaseGrid> = this.mapDict[this.DICT_KEY+this.mapLevel];
 			this.createMap(this._mapLevel+1,list[list.length-1].info);
-			
-			//this.addEventListener(egret.Event.ADDED_TO_STAGE,this.onAddToStage,this);
 		}
 		//
 		//添加人物
